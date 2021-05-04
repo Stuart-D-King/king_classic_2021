@@ -49,7 +49,7 @@ def add_player():
     if request.method == 'POST':
         f_name = request.form['first_name'].capitalize()
         l_name = request.form['last_name'].capitalize()
-        hdcp = int(request.form['hdcp'])
+        hdcp = float(request.form['hdcp'])
         tee1 = request.form['tee1']
         tee2 = request.form['tee2']
         tee3 = request.form['tee3']
