@@ -120,29 +120,34 @@ class Player(object):
         return back
 
 
-    def calc_course_score(self, course, net=False, skins=False):
+    def calc_course_score(self, course, net=False, skins=False, only_score=False):
         if net:
-            net_score = sum(self.net_scores[course].values())
-            return net_score
+            score = sum(self.net_scores[course].values())
+        elif skins:
+            score = sum(self.skins_scores[course].values())
+        else:
+            score = sum(self.scores[course].values())
 
-        if skins:
-            net_score = sum(self.skins_scores[course].values())
-            return net_score
+        thru = sum([1 for x in self.scores[course].values() if x > 0])
 
-        score = sum(self.scores[course].values())
-        return score
+        course_dct = self.courses[course]
+        par = sum(course_dct['par'])[:thru]
+        to_par = score - par
+
+        if only_score:
+            return score
+        else:
+            return score, to_par, thru
 
 
     def calc_total_score(self, net=False):
-        if net:
-            total = 0
-            for course in self.scores.keys():
-                net_total += sum(self.net_scores[course].values())
-            return net_total
-
         total = 0
         for course in self.scores.keys():
-            total += sum(self.scores[course].values())
+            if net:
+                total += sum(self.net_scores[course].values())
+            else:
+                total += sum(self.scores[course].values())
+
         return total
 
 
@@ -282,7 +287,7 @@ class PlayGolf(object):
     def show_player_course_score(self, player, course, net=False):
         with open('{}{}.pkl'.format(self.pkl_path, player.strip().lower().replace(' ','_')), 'rb') as f:
             golfer = pickle.load(f)
-        score = golfer.calc_course_score(course, net)
+        score  = golfer.calc_course_score(course, net, only_score=True)
         return score
 
 
@@ -303,20 +308,29 @@ class PlayGolf(object):
 
         names = []
         scores = []
+        to_par = []
+        thru = []
         for golfer in golfers:
             names.append(golfer.name)
             total = 0
+            tp = 0
+            tr = 0
             for course in golfer.scores.keys():
-                if golfer.calc_course_score(course, net) > 0:
-                    total += golfer.calc_course_score(course, net)
+                score, to_par, thru = golfer.calc_course_score(course, net)
+                total += score
+                tp += to_par
+                tr += thru
             scores.append(total)
+            to_par.append(tp)
+            thru.append(tr)
 
-        rank = list(rankdata(scores, method='min'))
+        # rank = list(rankdata(scores, method='min'))
+        rank = list(rankdata(to_par, method='min'))
         # rank = list(np.unique(scores, return_inverse=True)[1])
-        results = list(zip(rank, names, scores))
+        results = list(zip(rank, names, to_par, thru, scores))
         sorted_results = sorted(results, key=lambda x: x[0])
 
-        df = pd.DataFrame(sorted_results, columns=['Position', 'Name', 'Net Total'])
+        df = pd.DataFrame(sorted_results, columns=['Position', 'Name', 'To Par', 'Thru', 'Net Total'])
         # df.set_index('Position', inplace=True)
 
         return df
@@ -390,8 +404,8 @@ class PlayGolf(object):
         for (p1, p2) in teams:
             g1 = dct[p1]
             g2 = dct[p2]
-            s1 = g1.calc_course_score(course, net=True)
-            s2 = g2.calc_course_score(course, net=True)
+            s1 = g1.calc_course_score(course, net=True, only_score=True)
+            s2 = g2.calc_course_score(course, net=True, only_score=True)
             team_score = s1 + s2
             team_scores.append(team_score)
 
@@ -465,22 +479,22 @@ class PlayGolf(object):
                 front_tot = sum(front)
                 back = golfer.back_nine(course, net=True)
                 back_tot = sum(back)
-                total = golfer.calc_course_score(course, net=True)
-                net_total = golfer.calc_course_score(course, net=True)
+                total = golfer.calc_course_score(course, net=True, only_score=True)
+                net_total = golfer.calc_course_score(course, net=True, only_score=True)
             elif skins:
                 front = golfer.front_nine(course, skins=True)
                 front_tot = sum(front)
                 back = golfer.back_nine(course, skins=True)
                 back_tot = sum(back)
-                total = golfer.calc_course_score(course, skins=True)
-                net_total = golfer.calc_course_score(course, skins=True)
+                total = golfer.calc_course_score(course, skins=True, only_score=True)
+                net_total = golfer.calc_course_score(course, skins=True, only_score=True)
             else:
                 front = golfer.front_nine(course)
                 front_tot = sum(front)
                 back = golfer.back_nine(course)
                 back_tot = sum(back)
-                total = golfer.calc_course_score(course)
-                net_total = golfer.calc_course_score(course, net=True)
+                total = golfer.calc_course_score(course, only_score=True)
+                net_total = golfer.calc_course_score(course, net=True, only_score=True)
             hdcp = self.calc_handicap(player, course)
             score = front + [front_tot] + back + [back_tot, total, hdcp, net_total]
             scores.append(score)
