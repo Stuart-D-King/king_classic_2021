@@ -131,7 +131,7 @@ class Player(object):
         thru = sum([1 for x in self.scores[course].values() if x > 0])
 
         course_dct = self.courses[course]
-        par = sum(course_dct['par'])[:thru]
+        par = sum(course_dct['par'][:thru])
         to_par = score - par
 
         if only_score:
