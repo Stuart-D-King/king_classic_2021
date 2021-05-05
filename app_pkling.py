@@ -66,15 +66,15 @@ def add_player():
             'The Landing': tee6,
             'Great Waters': tee7
         }
-        skins = request.form['in_skins']
-        if skins == 'True':
-            skins = True
-        else:
-            skins = False
+        # skins = request.form['in_skins']
+        # if skins == 'True':
+        #     skins = True
+        # else:
+        #     skins = False
         full_name = f_name.strip() + ' ' + l_name.strip()
         full_name = full_name
 
-        golf.add_player(full_name, hdcp, tees, skins)
+        golf.add_player(full_name, hdcp, tees)
         msg = 'Player added successfully'
         return render_template('add_player.html', msg=msg)
 
