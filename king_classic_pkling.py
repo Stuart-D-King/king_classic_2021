@@ -316,10 +316,10 @@ class PlayGolf(object):
             tp = 0
             tr = 0
             for course in golfer.scores.keys():
-                score, to_par, thru = golfer.calc_course_score(course, net)
+                score, p, hp = golfer.calc_course_score(course, net)
                 total += score
-                tp += to_par
-                tr += thru
+                tp += p
+                tr += hp
             scores.append(total)
             to_par.append(tp)
             thru.append(tr)
