@@ -18,5 +18,7 @@ def tee_update(player, course, new_tee):
 
 
 if __name__ == '__main__':
-    _, str(p), str(c), str(nt) = argv
+    p = str(argv[1])
+    c = str(argv[2])
+    nt = str(arg[3])
     tee_update(p, c, nt)
