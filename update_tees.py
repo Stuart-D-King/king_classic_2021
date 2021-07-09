@@ -20,5 +20,6 @@ def tee_update(player, course, new_tee):
 if __name__ == '__main__':
     p = str(argv[1])
     c = str(argv[2])
-    nt = str(arg[3])
+    nt = str(argv[3])
     tee_update(p, c, nt)
+    print('Successfully updated the tee selection for {} to {} on the {} course'.format(p,nt,c))
