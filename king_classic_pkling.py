@@ -14,6 +14,7 @@ import boto3
 def past_locations_map():
     m = folium.Map(location=[40, -98], zoom_start=5)
 
+    folium.Marker([33.455350, -83.241400], popup='2021 - Greensboro, GA - TBD', icon=folium.Icon(color='red')).add_to(m)
     folium.Marker([28.554899, -82.387863], popup='2020 - Brooksville, FL - Josh Duckett').add_to(m)
     folium.Marker([33.494171, -111.926048], popup='2018 & 2019 - Scottsdale, AZ - Alex King').add_to(m)
     folium.Marker([36.805531, -114.06719], popup='2017 - Mesquite, NV - Alex King').add_to(m)
