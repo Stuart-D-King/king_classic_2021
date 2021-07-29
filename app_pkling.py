@@ -235,24 +235,36 @@ def teams():
                 request.form['t2p1'],
                 request.form['t3p1'],
                 request.form['t4p1'],
-                request.form['t5p1'],
-                request.form['t6p1']]
+                request.form['t5p1']]
 
         p2 = [request.form['t1p2'],
                 request.form['t2p2'],
                 request.form['t3p2'],
                 request.form['t4p2'],
-                request.form['t5p2'],
-                request.form['t6p2']]
+                request.form['t5p2']]
+
+        p3 = [request.form['t1p3'],
+                request.form['t2p3'],
+                request.form['t3p3'],
+                request.form['t4p3'],
+                request.form['t5p3']]
 
         p1 = [golfer for golfer in p1 if golfer != 'None']
         p2 = [golfer for golfer in p2 if golfer != 'None']
+        p3 = [golfer for golfer in p3 if golfer != 'None']
 
-        if len(p1) != len(p2):
-            msg = 'Teams not properly defined. Please try again.'
-            return render_template('teams.html', players=players, msg=msg)
+        lsts = [p1, p2, p3]
+        it = iter(lsts)
+        the_len = len(next(it))
+        if not all(len(l) == the_len for l in it):
+             raise msg = 'Teams not properly defined. Please try again.'
+             return render_template('teams.html', players=players, msg=msg)
 
-        golfers = list(zip(p1,p2))
+        # if len(p1) != len(p2):
+        #     msg = 'Teams not properly defined. Please try again.'
+        #     return render_template('teams.html', players=players, msg=msg)
+
+        golfers = list(zip(p1,p2,p3))
         teams_df = golf.calc_teams(golfers, course)
         return render_template('teams_results.html', teams_df=teams_df.to_html(index=False), course=course)
 

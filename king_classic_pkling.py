@@ -402,12 +402,14 @@ class PlayGolf(object):
         dct = dict(zip(names, golfers))
         # pot = len(teams) * 20
         team_scores = []
-        for (p1, p2) in teams:
+        for (p1, p2, p3) in teams:
             g1 = dct[p1]
             g2 = dct[p2]
+            g3 = dct[p3]
             s1 = g1.calc_course_score(course, net=True, only_score=True)
             s2 = g2.calc_course_score(course, net=True, only_score=True)
-            team_score = s1 + s2
+            s3 = g3.calc_course_score(course, net=True, only_score=True)
+            team_score = s1 + s2 + s3
             team_scores.append(team_score)
 
         team_nums = [idx+1 for idx, _ in enumerate(range(len(teams)))]
@@ -415,7 +417,7 @@ class PlayGolf(object):
         results = list(zip(rank, team_nums, team_scores))
         sorted_results = sorted(results, key=lambda x: x[0])
 
-        clean_teams = [p1 + ' / ' + p2 for p1, p2 in teams]
+        clean_teams = [p1 + ' / ' + p2 + ' / ' + p3 for p1, p2, p3 in teams]
         final_results = [(r, clean_teams[i-1], s) for r,i,s in sorted_results]
 
         df = pd.DataFrame(final_results, columns=['Position', 'Team', 'Score'])
@@ -423,27 +425,20 @@ class PlayGolf(object):
 
         first = [t for r,t,s in final_results if r == 1]
         second = [t for r,t,s in final_results if r == 2]
-        third = [t for r,t,s in final_results if r == 3]
+        # third = [t for r,t,s in final_results if r == 3]
 
         if len(first) == 1 and len(second) == 1:
-            f_winnings = 80
+            f_winnings = 100
             s_winnings = 50
-            t_winnings = 30 / len(third)
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
             df['Winnings'] = np.where(df['Position'] == 2, s_winnings, df['Winnings'])
-            df['Winnings'] = np.where(df['Position'] == 3, t_winnings, df['Winnings'])
-        elif len(first) == 2:
-            f_winnings = (80 + 50) / 2
-            s_winnings = 30 / len(third)
-            df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
-            df['Winnings'] = np.where(df['Position'] == 3, s_winnings, df['Winnings'])
         elif len(first) == 1  and len(second) > 1:
-            f_winnings = 80
-            s_winnings = (50 + 30) / len(second)
+            f_winnings = 100
+            s_winnings = 50 / len(second)
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
             df['Winnings'] = np.where(df['Position'] == 2, s_winnings, df['Winnings'])
-        elif len(first) > 2:
-            f_winnings = (80 + 50 + 30) / len(first)
+        elif len(first) >= 2:
+            f_winnings = (100 + 50) / len(first)
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
 
         df['Winnings'] = df['Winnings'].map('${:,.2f}'.format)
