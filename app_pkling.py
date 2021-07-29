@@ -257,7 +257,7 @@ def teams():
         it = iter(lsts)
         the_len = len(next(it))
         if not all(len(l) == the_len for l in it):
-             raise msg = 'Teams not properly defined. Please try again.'
+             msg = 'Teams not properly defined. Please try again.'
              return render_template('teams.html', players=players, msg=msg)
 
         # if len(p1) != len(p2):
