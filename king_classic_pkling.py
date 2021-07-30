@@ -428,17 +428,17 @@ class PlayGolf(object):
         # third = [t for r,t,s in final_results if r == 3]
 
         if len(first) == 1 and len(second) == 1:
-            f_winnings = 100
-            s_winnings = 50
+            f_winnings = 90
+            s_winnings = 60
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
             df['Winnings'] = np.where(df['Position'] == 2, s_winnings, df['Winnings'])
         elif len(first) == 1  and len(second) > 1:
-            f_winnings = 100
-            s_winnings = 50 / len(second)
+            f_winnings = 90
+            s_winnings = 60 / len(second)
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
             df['Winnings'] = np.where(df['Position'] == 2, s_winnings, df['Winnings'])
         elif len(first) >= 2:
-            f_winnings = (100 + 50) / len(first)
+            f_winnings = (90 + 60) / len(first)
             df['Winnings'] = np.where(df['Position'] == 1, f_winnings, df['Winnings'])
 
         df['Winnings'] = df['Winnings'].map('${:,.2f}'.format)
