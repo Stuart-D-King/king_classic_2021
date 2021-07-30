@@ -265,7 +265,7 @@ class PlayGolf(object):
             #         'Three': (68.1, 125),
             #         'Three/Four': (66.5, 121)
             #     }
-            }
+            # }
         }
         self.pkl_path = 'pkl_files/'
 
