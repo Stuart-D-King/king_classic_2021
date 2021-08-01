@@ -96,7 +96,7 @@ def enter_scores():
     players.sort()
 
     holes = [x for x in range(1,19)]
-    scores = [x for x in range(0,11)]
+    scores = [x for x in range(0,13)]
     course = 'None'
 
     if request.method == 'POST':
