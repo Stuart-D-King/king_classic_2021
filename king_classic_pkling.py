@@ -65,7 +65,70 @@ class Player(object):
         hole_hdcp = hdcps[hole - 1]
 
         if 'The National' in course:
-            hdcp = round(hdcp / 2)
+            if (hdcp % 2) == 0:
+                hdcp = hdcp / 2
+                if hole_hdcp <= hdcp:
+                    self.skins_scores[course][hole] = score - 1
+                elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                    self.skins_scores[course][hole] = score + 1
+                else:
+                    self.skins_scores[course][hole] = score
+
+                if hdcp > 18:
+                    super_hdcp = hdcp - 18
+                    if hole_hdcp <= super_hdcp:
+                        self.net_scores[course][hole] = score - 2
+                    else:
+                        self.net_scores[course][hole] = score - 1
+                elif hole_hdcp <= hdcp:
+                    self.net_scores[course][hole] = score - 1
+                elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                    self.net_scores[course][hole] = score + 1
+                else:
+                    self.net_scores[course][hole] = score
+            else:
+                hdcp = round(hdcp / 2)
+                if hole <= 9:
+                    if hole_hdcp <= hdcp:
+                        self.skins_scores[course][hole] = score - 1
+                    elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                        self.skins_scores[course][hole] = score + 1
+                    else:
+                        self.skins_scores[course][hole] = score
+
+                    if hdcp > 18:
+                        super_hdcp = hdcp - 18
+                        if hole_hdcp <= super_hdcp:
+                            self.net_scores[course][hole] = score - 2
+                        else:
+                            self.net_scores[course][hole] = score - 1
+                    elif hole_hdcp <= hdcp:
+                        self.net_scores[course][hole] = score - 1
+                    elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                        self.net_scores[course][hole] = score + 1
+                    else:
+                        self.net_scores[course][hole] = score
+                else:
+                    hdcp -= 1
+                    if hole_hdcp <= hdcp:
+                        self.skins_scores[course][hole] = score - 1
+                    elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                        self.skins_scores[course][hole] = score + 1
+                    else:
+                        self.skins_scores[course][hole] = score
+
+                    if hdcp > 18:
+                        super_hdcp = hdcp - 18
+                        if hole_hdcp <= super_hdcp:
+                            self.net_scores[course][hole] = score - 2
+                        else:
+                            self.net_scores[course][hole] = score - 1
+                    elif hole_hdcp <= hdcp:
+                        self.net_scores[course][hole] = score - 1
+                    elif hdcp < 0 and hole_hdcp <= abs(hdcp):
+                        self.net_scores[course][hole] = score + 1
+                    else:
+                        self.net_scores[course][hole] = score
 
         if hole_hdcp <= hdcp:
             self.skins_scores[course][hole] = score - 1
