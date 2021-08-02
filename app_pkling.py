@@ -56,15 +56,15 @@ def add_player():
         tee4 = request.form['tee4']
         tee5 = request.form['tee5']
         tee6 = request.form['tee6']
-        tee7 = request.form['tee7']
+        # tee7 = request.form['tee7']
         tees = { # NEEDS TO BE UPDATED
             'The Oconee': tee1,
             'The Oconee Replay': tee2,
             'The Preserve': tee3,
             'The Preserve Replay': tee4,
             'The National - Ridge/Bluff': tee5,
-            'The National - Bluff/Cove': tee6,
-            'The National - Cove/Ridge': tee7
+            'The National - Bluff/Ridge': tee6
+            # 'The National - Cove/Ridge': tee7
             # 'The Landing': tee6,
             # 'Great Waters': tee7
         }
