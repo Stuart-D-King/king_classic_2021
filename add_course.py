@@ -11,17 +11,16 @@ def course_update():
     for pf in allfiles:
         with open('pkl_files/' + pf, 'rb') as f:
             golfer = pickle.load(f)
-            golfer.courses['The National - Bluff/Ridge'] = {
-                'par': [4,4,5,3,4,5,3,4,4,4,4,3,4,3,5,4,5,4],
-                'hdcps': [8,3,7,9,6,5,4,1,2,5,7,9,2,4,3,6,8,1],
+            golfer.courses['The National - Cove/Bluff'] = {
+                'par': [4,4,3,5,4,5,3,4,4,4,4,5,3,4,5,3,4,4],
+                'hdcps': [6,2,9,5,4,7,8,1,3,8,3,7,9,6,5,4,1,2],
                 'tees': {
-                    'One': (74.2, 143),
-                    'Two': (72.5, 141),
-                    'Tournament': (71.4, 136),
-                    'Three': (70.4, 133),
-                    'Four': (68.8, 128),
-                    'Four/Five': (67.6, 127),
-                    'Five': (66.9, 122)
+                    'One': (74.4, 143),
+                    'Two': (72.4, 141),
+                    'Tournament': (71.5, 137),
+                    'Three': (70.4, 134),
+                    'Four': (69, 127),
+                    'Four/Five': (67.7, 128)
                 }
             }
             with open('pkl_files/' + pf, 'wb') as f:

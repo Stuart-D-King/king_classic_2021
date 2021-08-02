@@ -63,7 +63,7 @@ def add_player():
             'The Preserve': tee3,
             'The Preserve Replay': tee4,
             'The National - Ridge/Bluff': tee5,
-            'The National - Bluff/Ridge': tee6
+            'The National - Cove/Bluff': tee6
             # 'The National - Cove/Ridge': tee7
             # 'The Landing': tee6,
             # 'Great Waters': tee7
